@@ -109,6 +109,8 @@ int main(int argc, char const *argv[])
         printf("Converted:\tDecimal %d\tBinary " PRINTF_BINARY_PATTERN_INT32 "\n", byte4, PRINTF_BYTE_TO_BINARY_INT32(byte4));
     }
 
+    // Send and recieve a byte array.
+
     close(sock);
 
     return 0;
