@@ -57,7 +57,7 @@ RUN apt-get update \
     && apt-get clean -y \
     && rm -rf /var/lib/apt/lists/*
 RUN apt-get update
-RUN apt-get install -y build-essential g++
+RUN apt-get install -y build-essential g++ gdb
 # Switch back to dialog for any ad-hoc use of apt-get
 ENV DEBIAN_FRONTEND=dialog
 
