@@ -50,21 +50,63 @@ int main(int argc, char const *argv[])
 
     // Send and recieve one byte.
 
-    printf("\nSent one byte unconverted\nDecimal %d\nBinary " PRINTF_BINARY_PATTERN_INT8 "\n", byte1, PRINTF_BYTE_TO_BINARY_INT8(byte1));
+    printf("\nSent one byte\nUnconverted:\tDecimal %d\tBinary " PRINTF_BINARY_PATTERN_INT8 "\n", byte1, PRINTF_BYTE_TO_BINARY_INT8(byte1));
 
     if (convert)
     {
-        printf("\nSent one byte converted\nDecimal %d\nBinary " PRINTF_BINARY_PATTERN_INT8 "\n", byte1, PRINTF_BYTE_TO_BINARY_INT8(byte1));
+        printf("Converted:\tDecimal %d\tBinary " PRINTF_BINARY_PATTERN_INT8 "\n", byte1, PRINTF_BYTE_TO_BINARY_INT8(byte1));
     }
 
-    write(sock, &byte1, sizeof(uint8_t)); 
+    write(sock, &byte1, sizeof(uint8_t));
     read(sock, &byte1, sizeof(uint8_t));
 
-    printf("\nRecieved one byte unconverted\nDecimal %d\nBinary " PRINTF_BINARY_PATTERN_INT8 "\n", byte1, PRINTF_BYTE_TO_BINARY_INT8(byte1));
+    printf("\nRecieved one byte\nUnconverted:\tDecimal %d\tBinary " PRINTF_BINARY_PATTERN_INT8 "\n", byte1, PRINTF_BYTE_TO_BINARY_INT8(byte1));
 
     if (convert)
     {
-        printf("\nRecieved one byte converted\nDecimal %d\nBinary " PRINTF_BINARY_PATTERN_INT8 "\n", byte1, PRINTF_BYTE_TO_BINARY_INT8(byte1));
+        printf("Converted:\tDecimal %d\tBinary " PRINTF_BINARY_PATTERN_INT8 "\n", byte1, PRINTF_BYTE_TO_BINARY_INT8(byte1));
+    }
+
+    // Send and recieve two bytes.
+
+    printf("\nSent two bytes\nUnconverted:\tDecimal %d\tBinary " PRINTF_BINARY_PATTERN_INT16 "\n", byte2, PRINTF_BYTE_TO_BINARY_INT16(byte2));
+
+    if (convert)
+    {
+        byte2 = htons(byte2);
+        printf("Converted:\tDecimal %d\tBinary " PRINTF_BINARY_PATTERN_INT16 "\n", byte2, PRINTF_BYTE_TO_BINARY_INT16(byte2));
+    }
+
+    write(sock, &byte2, sizeof(uint16_t));
+    read(sock, &byte2, sizeof(uint16_t));
+
+    printf("\nRecieved two bytes\nUnconverted:\tDecimal %d\tBinary " PRINTF_BINARY_PATTERN_INT16 "\n", byte2, PRINTF_BYTE_TO_BINARY_INT16(byte2));
+
+    if (convert)
+    {
+        byte2 = ntohs(byte2);
+        printf("Converted:\tDecimal %d\tBinary " PRINTF_BINARY_PATTERN_INT16 "\n", byte2, PRINTF_BYTE_TO_BINARY_INT16(byte2));
+    }
+
+    // Send and recieve four bytes.
+
+    printf("\nSent four bytes\nUnconverted:\tDecimal %d\tBinary " PRINTF_BINARY_PATTERN_INT32 "\n", byte4, PRINTF_BYTE_TO_BINARY_INT32(byte4));
+
+    if (convert)
+    {
+        byte4 = htonl(byte4);
+        printf("Converted:\tDecimal %d\tBinary " PRINTF_BINARY_PATTERN_INT32 "\n", byte4, PRINTF_BYTE_TO_BINARY_INT32(byte4));
+    }
+
+    write(sock, &byte4, sizeof(uint32_t));
+    read(sock, &byte4, sizeof(uint32_t));
+
+    printf("\nRecieved four bytes\nUnconverted:\tDecimal %d\tBinary " PRINTF_BINARY_PATTERN_INT32 "\n", byte4, PRINTF_BYTE_TO_BINARY_INT32(byte4));
+
+    if (convert)
+    {
+        byte4 = ntohl(byte4);
+        printf("Converted:\tDecimal %d\tBinary " PRINTF_BINARY_PATTERN_INT32 "\n", byte4, PRINTF_BYTE_TO_BINARY_INT32(byte4));
     }
 
     close(sock);

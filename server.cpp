@@ -25,7 +25,6 @@ int main(int argc, char const *argv[])
         exit(EXIT_FAILURE);
     }
 
-
     printf("1");
 
     // Forcefully attaching socket to the port 8080
@@ -65,22 +64,66 @@ int main(int argc, char const *argv[])
 
     read(new_socket, &byte1, sizeof(uint8_t));
 
-    printf("\nRecieved one byte unconverted\nDecimal %d\nBinary " PRINTF_BINARY_PATTERN_INT8 "\n", byte1, PRINTF_BYTE_TO_BINARY_INT8(byte1));
+    printf("\nRecieved one byte\nUnconverted:\tDecimal %d\tBinary " PRINTF_BINARY_PATTERN_INT8 "\n", byte1, PRINTF_BYTE_TO_BINARY_INT8(byte1));
 
     if (convert)
     {
-        printf("\nRecieved one byte converted\nDecimal %d\nBinary " PRINTF_BINARY_PATTERN_INT8 "\n", byte1, PRINTF_BYTE_TO_BINARY_INT8(byte1));
+        printf("Converted:\tDecimal %d\tBinary " PRINTF_BINARY_PATTERN_INT8 "\n", byte1, PRINTF_BYTE_TO_BINARY_INT8(byte1));
     }
 
-    printf("\nSent one byte unconverted\nDecimal %d\nBinary " PRINTF_BINARY_PATTERN_INT8 "\n", byte1, PRINTF_BYTE_TO_BINARY_INT8(byte1));
+    printf("\nSent one byte\nUnconverted:\tDecimal %d\tBinary " PRINTF_BINARY_PATTERN_INT8 "\n", byte1, PRINTF_BYTE_TO_BINARY_INT8(byte1));
 
     if (convert)
     {
-        printf("\nSent one byte converted\nDecimal %d\nBinary " PRINTF_BINARY_PATTERN_INT8 "\n", byte1, PRINTF_BYTE_TO_BINARY_INT8(byte1));
+        printf("Converted:\tDecimal %d\tBinary " PRINTF_BINARY_PATTERN_INT8 "\n", byte1, PRINTF_BYTE_TO_BINARY_INT8(byte1));
     }
 
     write(new_socket, &byte1, sizeof(uint8_t));
 
+    // Recieve and send two bytes.
+
+    read(new_socket, &byte2, sizeof(uint16_t));
+
+    printf("\nRecieved two bytes\nUnconverted:\tDecimal %d\tBinary " PRINTF_BINARY_PATTERN_INT16 "\n", byte2, PRINTF_BYTE_TO_BINARY_INT16(byte2));
+
+    if (convert)
+    {
+        byte2 = ntohs(byte2);
+        printf("Converted:\tDecimal %d\tBinary " PRINTF_BINARY_PATTERN_INT16 "\n", byte2, PRINTF_BYTE_TO_BINARY_INT16(byte2));
+    }
+
+    printf("\nSent two bytes\nUnconverted:\tDecimal %d\tBinary " PRINTF_BINARY_PATTERN_INT16 "\n", byte2, PRINTF_BYTE_TO_BINARY_INT16(byte2));
+
+    if (convert)
+    {
+        byte2 = htons(byte2);
+        printf("Converted:\tDecimal %d\tBinary " PRINTF_BINARY_PATTERN_INT16 "\n", byte2, PRINTF_BYTE_TO_BINARY_INT16(byte2));
+    }
+
+    write(new_socket, &byte2, sizeof(uint16_t));
+
+    // Recieve and send four bytes.
+
+    read(new_socket, &byte4, sizeof(uint32_t));
+
+    printf("\nRecieved four bytes\nUnconverted:\tDecimal %d\tBinary " PRINTF_BINARY_PATTERN_INT32 "\n", byte4, PRINTF_BYTE_TO_BINARY_INT32(byte4));
+
+    if (convert)
+    {
+        byte4 = ntohl(byte4);
+        printf("Converted:\tDecimal %d\tBinary " PRINTF_BINARY_PATTERN_INT32 "\n", byte4, PRINTF_BYTE_TO_BINARY_INT32(byte4));
+    }
+
+    printf("\nSent four bytes\nUnconverted:\tDecimal %d\tBinary " PRINTF_BINARY_PATTERN_INT32 "\n", byte4, PRINTF_BYTE_TO_BINARY_INT32(byte4));
+
+    if (convert)
+    {
+        byte4 = htonl(byte4);
+        printf("Converted:\tDecimal %d\tBinary " PRINTF_BINARY_PATTERN_INT32 "\n", byte4, PRINTF_BYTE_TO_BINARY_INT32(byte4));
+    }
+
+    write(new_socket, &byte4, sizeof(uint32_t));
+    
     close(server_fd);
 
     return 0;
