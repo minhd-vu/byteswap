@@ -4,7 +4,11 @@ services:
     - docker
 
 before_install:
+    - git clone https://github.com/computermouth/qemu-static-conf.git
+    - sudo mkdir -p /lib/binfmt.d
+    - sudo cp qemu-static-conf/*.conf /lib/binfmt.d/
+    - sudo systemctl restart systemd-binfmt.service
     - cd .devcontainer
-    - docker-compose up
+    - docker-compose build
 
 script: make
