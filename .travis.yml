@@ -10,6 +10,6 @@ before_install:
     - sudo cp qemu-static-conf/*.conf /lib/binfmt.d/
     - sudo systemctl restart systemd-binfmt.service
     - cd .devcontainer
-    - docker build -f ./bigendian.Dockerfile
+    - docker build -f bigendian.Dockerfile .
 
 script: make
