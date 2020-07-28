@@ -1,3 +1,3 @@
 FROM s390x/ubuntu
 
-RUN apt-get -y update && apt-get -y install g++ make gdb
+RUN apt-get update && apt-get -y install g++ make gdb
