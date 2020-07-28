@@ -3,7 +3,7 @@
 
 int main(int argc, char const *argv[])
 {
-    int server_fd, new_socket, valread;
+    int server_fd, new_socket;
     struct sockaddr_in address;
     int opt = 1;
     int addrlen = sizeof(address);
@@ -25,6 +25,9 @@ int main(int argc, char const *argv[])
         exit(EXIT_FAILURE);
     }
 
+
+    printf("1");
+
     // Forcefully attaching socket to the port 8080
     if (setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &opt, sizeof(opt)))
     {
@@ -35,6 +38,8 @@ int main(int argc, char const *argv[])
     address.sin_family = AF_INET;
     address.sin_addr.s_addr = INADDR_ANY;
     address.sin_port = htons(PORT);
+
+    printf("2");
 
     // Forcefully attaching socket to the port 8080
     if (bind(server_fd, (struct sockaddr *)&address, sizeof(address)) < 0)
@@ -47,6 +52,9 @@ int main(int argc, char const *argv[])
         perror("listen");
         exit(EXIT_FAILURE);
     }
+
+    printf("3");
+
     if ((new_socket = accept(server_fd, (struct sockaddr *)&address, (socklen_t *)&addrlen)) < 0)
     {
         perror("accept");
@@ -55,8 +63,7 @@ int main(int argc, char const *argv[])
 
     // Recieve and send one byte.
 
-    valread = read(new_socket, buffer, BUFFER_SIZE);
-    memcpy(&byte1, buffer, sizeof(buffer));
+    read(new_socket, &byte1, sizeof(uint8_t));
 
     printf("\nRecieved one byte unconverted\nDecimal %d\nBinary " PRINTF_BINARY_PATTERN_INT8 "\n", byte1, PRINTF_BYTE_TO_BINARY_INT8(byte1));
 
@@ -72,7 +79,9 @@ int main(int argc, char const *argv[])
         printf("\nSent one byte converted\nDecimal %d\nBinary " PRINTF_BINARY_PATTERN_INT8 "\n", byte1, PRINTF_BYTE_TO_BINARY_INT8(byte1));
     }
 
-    send(new_socket, &byte1, sizeof(byte1), 0);
+    write(new_socket, &byte1, sizeof(uint8_t));
+
+    close(server_fd);
 
     return 0;
 }

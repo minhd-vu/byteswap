@@ -12,6 +12,8 @@ int main(int argc, char const *argv[])
     int sock = 0, valread;
     struct sockaddr_in serv_addr;
     char buffer[BUFFER_SIZE] = {0};
+
+    // Whether you want to see endian conversions.
     bool convert = true;
 
     // What we are sending/recieving to/from the server.
@@ -55,10 +57,8 @@ int main(int argc, char const *argv[])
         printf("\nSent one byte converted\nDecimal %d\nBinary " PRINTF_BINARY_PATTERN_INT8 "\n", byte1, PRINTF_BYTE_TO_BINARY_INT8(byte1));
     }
 
-    send(sock, &byte1, sizeof(byte1), 0);
-
-    valread = read(sock, buffer, BUFFER_SIZE);
-    memcpy(&byte1, buffer, sizeof(buffer));
+    write(sock, &byte1, sizeof(uint8_t)); 
+    read(sock, &byte1, sizeof(uint8_t));
 
     printf("\nRecieved one byte unconverted\nDecimal %d\nBinary " PRINTF_BINARY_PATTERN_INT8 "\n", byte1, PRINTF_BYTE_TO_BINARY_INT8(byte1));
 
@@ -66,6 +66,8 @@ int main(int argc, char const *argv[])
     {
         printf("\nRecieved one byte converted\nDecimal %d\nBinary " PRINTF_BINARY_PATTERN_INT8 "\n", byte1, PRINTF_BYTE_TO_BINARY_INT8(byte1));
     }
+
+    close(sock);
 
     return 0;
 }
