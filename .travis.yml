@@ -12,4 +12,5 @@ before_install:
     - cd .devcontainer
     - docker-compose build
 
-script: make
+script:
+    - docker exec -it /byteswap_devcontainer_bigendian_1 /bin/sh -c "[ -e /bin/bash ] && /bin/bash || /bin/sh"
