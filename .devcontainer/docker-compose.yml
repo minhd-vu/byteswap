@@ -44,7 +44,7 @@ services:
       - SYS_PTRACE
     command: sleep infinity
   bigendian:
-    image: s390x/ubuntu
+    image: s390x/debian
     build:
         context: .
         dockerfile: bigendian.Dockerfile
