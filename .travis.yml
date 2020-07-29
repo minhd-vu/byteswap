@@ -26,6 +26,12 @@ before_install:
   - sudo mv docker-compose /usr/local/bin
 
 before_script:
+    - sudo apt-get install -y qemu binfmt-support qemu-user-static
+    - git clone https://github.com/computermouth/qemu-static-conf.git
+    - sudo mkdir -p /lib/binfmt.d
+    - sudo cp qemu-static-conf/*.conf /lib/binfmt.d/
+    - sudo systemctl restart systemd-binfmt.service
+  - cd .devcontainer
   - docker-compose up -d --build
 
 script:
