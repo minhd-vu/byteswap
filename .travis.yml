@@ -1,12 +1,35 @@
+# services:
+#     - docker
+
+# before_install:
+#     - sudo apt-get install -y qemu binfmt-support qemu-user-static
+#     - git clone https://github.com/computermouth/qemu-static-conf.git
+#     - sudo mkdir -p /lib/binfmt.d
+#     - sudo cp qemu-static-conf/*.conf /lib/binfmt.d/
+#     - sudo systemctl restart systemd-binfmt.service
+#     - cd .devcontainer
+#     - docker-compose up --build
+#     - docker exec -it /byteswap_devcontainer_bigendian_1 /bin/sh -c "[ -e /bin/bash ] && /bin/bash || /bin/sh"
+
+sudo: required
+
 services:
-    - docker
+  - docker
+
+env:
+  DOCKER_COMPOSE_VERSION: 1.23.2
 
 before_install:
-    - sudo apt-get install -y qemu binfmt-support qemu-user-static
-    - git clone https://github.com/computermouth/qemu-static-conf.git
-    - sudo mkdir -p /lib/binfmt.d
-    - sudo cp qemu-static-conf/*.conf /lib/binfmt.d/
-    - sudo systemctl restart systemd-binfmt.service
-    - cd .devcontainer
-    - docker-compose up --build
-    # - docker exec -it /byteswap_devcontainer_bigendian_1 /bin/sh -c "[ -e /bin/bash ] && /bin/bash || /bin/sh"
+  - sudo rm /usr/local/bin/docker-compose
+  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin
+
+before_script:
+  - docker-compose up -d --build
+
+script:
+  - docker-compose exec users -it /byteswap_devcontainer_bigendian_1 /bin/sh -c "[ -e /bin/bash ] && /bin/bash || /bin/sh"
+
+after_script:
+  - docker-compose down
