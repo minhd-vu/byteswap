@@ -36,7 +36,7 @@ before_script:
 
 script:
   - docker ps -a
-  - docker exec -it devcontainer_bigendian_1 /bin/sh -c "[ -e /bin/bash ] && /bin/bash || /bin/sh"
+  - docker exec -it devcontainer_bigendian_1 /bin/sh -c "[ -e /bin/bash ] && /bin/bash || /bin/sh && cd workspace && make -B && ./server"
 
 after_script:
   - docker-compose down
