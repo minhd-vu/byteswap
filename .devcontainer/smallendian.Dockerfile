@@ -20,7 +20,7 @@ ARG USER_GID=$USER_UID
 RUN apt-get update \
     #
     # Install C++ tools
-    && apt-get -y install build-essential cmake cppcheck valgrind \
+    && apt-get -y install build-essential cmake cppcheck valgrind dnsutils\
     #:
     # Install Docker CE CLI
     && apt-get install -y apt-transport-https ca-certificates curl gnupg-agent software-properties-common lsb-release locales \
