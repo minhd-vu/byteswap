@@ -35,7 +35,7 @@ before_script:
   - docker-compose up -d --build
 
 script:
-  - docker-compose exec -it /byteswap_devcontainer_bigendian_1 /bin/sh -c "[ -e /bin/bash ] && /bin/bash || /bin/sh"
+  - docker exec -it /byteswap_devcontainer_bigendian_1 /bin/sh -c "[ -e /bin/bash ] && /bin/bash || /bin/sh"
 
 after_script:
   - docker-compose down
