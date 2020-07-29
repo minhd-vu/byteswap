@@ -1,5 +1,3 @@
-language: C++
-
 services:
     - docker
 
@@ -11,6 +9,4 @@ before_install:
     - sudo systemctl restart systemd-binfmt.service
     - cd .devcontainer
     - docker-compose up --build
-
-script:
     - docker exec -it /byteswap_devcontainer_bigendian_1 /bin/sh -c "[ -e /bin/bash ] && /bin/bash || /bin/sh"
