@@ -34,12 +34,24 @@ before_script:
   - cd .devcontainer
   - docker-compose up -d --build
 
-script:
-  - docker ps -a
-  # - docker exec -it devcontainer_bigendian_1 /bin/sh -c "[ -e /bin/bash ] && /bin/bash || /bin/sh && cd workspace && make -B && ./server"
-  - docker inspect devcontainer_bigendian_1
-  - docker exec -it devcontainer_bigendian_1 /bin/sh -c "cd workspace && make -B && ./server"
-  - docker exec -it devcontainer_littleendian_1 /bin/sh -c "cd workspace && make -B"
+# script:
+#   - docker ps -a
+#   # - docker exec -it devcontainer_bigendian_1 /bin/sh -c "[ -e /bin/bash ] && /bin/bash || /bin/sh && cd workspace && make -B && ./server"
+#   - docker inspect devcontainer_bigendian_1
+#   - docker exec -it devcontainer_bigendian_1 /bin/sh -c "cd workspace && make -B && ./server"
+#   - docker exec -it devcontainer_littleendian_1 /bin/sh -c "cd workspace && make -B && ./client 172.18.0.4"
+
+jobs:
+  include:
+    - stage: test
+      script:
+        - docker ps -a
+        - docker inspect devcontainer_bigendian_1
+        - docker exec -it devcontainer_bigendian_1 /bin/sh -c "cd workspace && make -B && ./server"
+    - # run in parallel
+      script:
+        - sleep 1
+        - docker exec -it devcontainer_littleendian_1 /bin/sh -c "cd workspace && make -B && ./client 172.18.0.4"
 
 after_script:
   - docker-compose down
