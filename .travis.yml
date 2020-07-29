@@ -10,7 +10,7 @@ before_install:
     - sudo cp qemu-static-conf/*.conf /lib/binfmt.d/
     - sudo systemctl restart systemd-binfmt.service
     - cd .devcontainer
-    - docker-compose build
+    - docker-compose up --build
 
 script:
     - docker exec -it /byteswap_devcontainer_bigendian_1 /bin/sh -c "[ -e /bin/bash ] && /bin/bash || /bin/sh"
