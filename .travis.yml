@@ -51,8 +51,7 @@ jobs:
     - # run in parallel
       script:
         - sleep 10
-        - docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' devcontainer_bigendian_1
-        - docker exec -it devcontainer_littleendian_1 /bin/sh -c "cd workspace && make -B && ./client `host devcontainer_bigendian_1 | awk '{print $4}'`"
+        - docker exec -it devcontainer_littleendian_1 /bin/sh -c "cd workspace && make -B && ./client `docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' devcontainer_bigendian_1`"
 
 after_script:
   - docker-compose down
