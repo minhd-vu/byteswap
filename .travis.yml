@@ -45,9 +45,7 @@ jobs:
   include:
     - stage: test
       script:
-        - docker exec -it devcontainer_bigendian_1 /bin/sh -c "cd workspace && make -B & ./server"
-        - sleep 10
-        - docker exec -it devcontainer_littleendian_1 /bin/sh -c "cd workspace && make -B && ./client `docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' devcontainer_bigendian_1`"
+        - docker exec -it devcontainer_bigendian_1 /bin/sh -c "cd workspace && make -B & ./server" & docker exec -it devcontainer_littleendian_1 /bin/sh -c "cd workspace && make -B && ./client `docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' devcontainer_bigendian_1`"
 
 after_script:
   - docker-compose down
