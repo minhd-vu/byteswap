@@ -41,17 +41,17 @@ before_script:
 #   - docker exec -it devcontainer_bigendian_1 /bin/sh -c "cd workspace && make -B && ./server"
 #   - docker exec -it devcontainer_littleendian_1 /bin/sh -c "cd workspace && make -B && ./client 172.18.0.4"
 
-# script:
-#   - docker exec -it devcontainer_bigendian_1 /bin/sh -c "cd workspace && make -B && ./server" &
-#   - docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' devcontainer_bigendian_1
-#   - docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' devcontainer_littleendian_1
-#   - docker exec -it devcontainer_littleendian_1 /bin/sh -c "cd workspace && make -B && ./client `docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' devcontainer_bigendian_1`"
-
 script:
-  - docker-compose exec devcontainer_bigendian_1 /bin/sh -c "cd workspace && make -B && ./server &"
+  - docker exec -itd devcontainer_bigendian_1 /bin/sh -c "cd workspace && make -B && ./server"
   - docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' devcontainer_bigendian_1
   - docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' devcontainer_littleendian_1
-  - docker-compose exec devcontainer_littleendian_1 /bin/sh -c "cd workspace && make -B && ./client `docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' devcontainer_bigendian_1`"
+  - docker exec -it devcontainer_littleendian_1 /bin/sh -c "cd workspace && make -B && ./client `docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' devcontainer_bigendian_1`"
+
+# script:
+#   - docker-compose exec devcontainer_bigendian_1 /bin/sh -c "cd workspace && make -B && ./server &"
+#   - docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' devcontainer_bigendian_1
+#   - docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' devcontainer_littleendian_1
+#   - docker-compose exec devcontainer_littleendian_1 /bin/sh -c "cd workspace && make -B && ./client `docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' devcontainer_bigendian_1`"
 
 
 after_script:
